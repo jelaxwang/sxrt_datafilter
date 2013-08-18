@@ -1,0 +1,64 @@
+﻿@model IEnumerable<DataFilter.Models.TableField>
+<strong style="font-size: x-large">@ViewBag.Title</strong>
+<script src="@Url.Content("~/Scripts/jquery.ui.datepicker-zh-CN.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.json-2.4.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/dataExport.js")" type="text/javascript"></script>
+<script type="text/javascript">
+       $(function () {
+       $("#tabs").tabs();
+       @{
+           var options = "";        //条件筛选下拉框的选项
+           foreach (var item in Model)
+           {
+               options += string.Format(@"<option  t='{0}' value='{1}'>{2}</option>", item.TableName, item.FieldType, item.FieldName);
+           }
+           var perFilterDesc = string.Format(@"<div><select onchange='resetOperation(this);' style='width:150px'>{0}</select><select /><input type='text' onblur='checkInput(this);' style='width: 400px' /><input type='button' value='+' class='addFilterButton' onclick='addFilter(this.parentElement);'/><input type='button' value='X' class='addFilterButton' onclick='deleteFilter(this.parentElement);'></div>", options);
+           @:var perFilterDesc = "@Html.Raw(perFilterDesc)";
+
+           for (int i = 0; i < ViewBag.DefaultFilterCount; i++)
+           {
+                @:appendFilter(perFilterDesc,$("#tabs-1"));
+           }
+
+           @:$("#tabs-1  select:even").trigger("change");
+
+           var fieldsListBoxDesc = string.Format("<select id='fieldsPool' multiple='multiple' style='height:330px;width:300px'>{0}</select>", options);
+           @:$("#tabs-2 #fieldsPoolTd").append("@Html.Raw(fieldsListBoxDesc)");
+        }
+    });
+
+</script>
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">筛选条件</a></li>
+        <li><a href="#tabs-2">输出列</a></li>
+    </ul>
+    <div id="tabs-1">
+    </div>
+    <div id="tabs-2" style="height: 330px">
+        <table style="border: none">
+            <tr>
+                <td id="fieldsPoolTd">
+                </td>
+                <td>
+                    <input type="button" value=">>" style="width: 80px; display: block; margin-bottom: 30px"
+                        onclick="moveSelectedOption('fieldsPool','selectedFieldsPool')" />
+                    <input type="button" value="<<" style="width: 80px; display: block;" onclick="moveSelectedOption('selectedFieldsPool','fieldsPool')" />
+                </td>
+                <td>
+                    <select id='selectedFieldsPool' multiple='multiple' style='height: 330px; width: 300px'>
+                    </select>
+                </td>
+                <td>
+                    @* <input type="button" value="预览" style="width: 80px; display: block; margin-bottom: 30px"
+                        onclick="exportData('tabs-1','selectedFieldsPool','@ViewBag.IsB2BData','true')" />*@
+                    <input type="button" value="导出" style="width: 80px; display: block;" onclick="exportData('tabs-1','selectedFieldsPool','@ViewBag.IsB2BData','false')" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="dialog-modal-preview">
+        <table id="previewDataTb">
+        </table>
+    </div>
+</div>

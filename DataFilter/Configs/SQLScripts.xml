@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Scripts>
+  <Script name="GetFields" database="dataCenter">
+    <![CDATA[
+SELECT syscolumns.name as FieldName,systypes.name as FieldType
+FROM dataCenter.dbo.syscolumns WITH(NOLOCK)
+INNER JOIN dataCenter.dbo.systypes WITH(NOLOCK)
+	ON syscolumns.xusertype = systypes.xusertype 
+WHERE syscolumns.id = object_id('dbo.@tableName@')
+    ]]>
+  </Script>
+
+</Scripts>

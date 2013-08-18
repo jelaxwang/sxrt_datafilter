@@ -1,0 +1,16 @@
+﻿<strong style="font-size: x-large">@ViewBag.Title</strong>
+<script src="@Url.Content("~/Scripts/dataImport.js")" type="text/javascript"></script>
+<form action="/Import/ImportData?isB2BData=@ViewBag.IsB2BData" method="post" enctype="multipart/form-data" onsubmit="checkExcel()">
+<input type="file" name="fileUpload" style="width: 500px; height: 30px" />
+<input type="submit" id="submit" value="上传" style="width: 80px; height: 30px" />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="text-align: center; font-size: x-large; color: Red">@ViewBag.ImportMsg</div>
+<div id="uploadTip" style="text-align: center; display: none; font-size: x-large;
+    color: Green">
+    正在上传..............</div>
+</form>

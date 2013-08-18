@@ -1,0 +1,11 @@
+#ºöÂÔÎÄ¼ş
+.gitignore 
+DataFilter.Publish.xml
+*.user
+*.suo
+
+#ºöÂÔbin,objÄ¿Â¼
+bin/
+obj/
+*/bin/
+*/obj/
